@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_CONFIG } from '../config/api';
 
-const BASE_URL = 'http://192.168.1.23:7203';
+const BASE_URL = API_CONFIG.BASE_URL;
 
 export interface StockData {
   id: number;

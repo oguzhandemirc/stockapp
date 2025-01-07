@@ -3,13 +3,23 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, Divider } from 'react-native-paper';
 import { TokenService } from '../services/tokenService';
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { 
+  DrawerContentScrollView, 
+  DrawerItemList,
+  DrawerItem,
+  DrawerContentComponentProps 
+} from '@react-navigation/drawer';
 import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface UserData {
   username: string;
   role: string;
+}
+
+interface DrawerIconProps {
+  size: number;
+  color: string;
 }
 
 export default function DrawerLayout() {
@@ -60,10 +70,34 @@ export default function DrawerLayout() {
         swipeEnabled: true,
         drawerType: 'front'
       }}
-      drawerContent={(props) => (
+      drawerContent={(props: DrawerContentComponentProps) => (
         <View style={{ flex: 1 }}>
           <DrawerContentScrollView {...props}>
-            <DrawerItemList {...props} />
+            {props.state.routes.map((route, index) => {
+              if (route.name === 'admin') return null;
+              
+              return (
+                <DrawerItem
+                  key={route.key}
+                  label={props.descriptors[route.key].options.drawerLabel || route.name}
+                  icon={props.descriptors[route.key].options.drawerIcon}
+                  focused={props.state.index === index}
+                  onPress={() => props.navigation.navigate(route.name)}
+                  activeTintColor="#1B4371"
+                />
+              );
+            })}
+            
+            {userData?.role === 'admin' && (
+              <DrawerItem
+                label="Yönetici Paneli"
+                icon={({ size, color }: DrawerIconProps) => (
+                  <MaterialIcons name="admin-panel-settings" size={size} color={color} />
+                )}
+                onPress={() => props.navigation.navigate('admin')}
+                activeTintColor="#1B4371"
+              />
+            )}
           </DrawerContentScrollView>
           
           <View style={styles.bottomSection}>
@@ -96,8 +130,41 @@ export default function DrawerLayout() {
       <Drawer.Screen
         name="home"
         options={{
-          drawerLabel: 'Borsa İstanbul',
-          title: 'Borsa İstanbul',
+          drawerLabel: "Ana Sayfa",
+          title: "Ana Sayfa",
+          drawerIcon: ({ size, color }) => (
+            <MaterialIcons name="home" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="trade-history"
+        options={{
+          drawerLabel: "İşlem Geçmişi",
+          title: "İşlem Geçmişi",
+          drawerIcon: ({ size, color }) => (
+            <MaterialIcons name="history" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="portfolio"
+        options={{
+          drawerLabel: "Portföyüm",
+          title: "Portföyüm",
+          drawerIcon: ({ size, color }) => (
+            <MaterialIcons name="account-balance-wallet" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="profile"
+        options={{
+          drawerLabel: 'Profil',
+          title: 'Profil',
+          drawerIcon: ({ size, color }) => (
+            <MaterialIcons name="person" size={size} color={color} />
+          ),
         }}
       />
       {userData?.role === 'admin' && (
@@ -106,16 +173,12 @@ export default function DrawerLayout() {
           options={{
             drawerLabel: 'Yönetici Paneli',
             title: 'Yönetici Paneli',
+            drawerIcon: ({ size, color }) => (
+              <MaterialIcons name="admin-panel-settings" size={size} color={color} />
+            ),
           }}
         />
       )}
-      <Drawer.Screen
-        name="profile"
-        options={{
-          drawerLabel: 'Profil',
-          title: 'Profil',
-        }}
-      />
     </Drawer>
   );
 }

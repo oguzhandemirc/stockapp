@@ -1,11 +1,9 @@
 import axios from 'axios';
-
-// BASE_URL tanımı
-const BASE_URL = 'http://192.168.1.23:7203/api/Authentication'; // HTTP üzerinden bağlantı
+import { API_CONFIG } from '../config/api';
 
 // Axios örneği (Base URL tanımlandı)
 const axiosInstance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.AUTH}`,
     timeout: 10000, // 10 saniye timeout süresi
 });
 
