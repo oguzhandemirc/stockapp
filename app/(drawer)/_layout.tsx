@@ -167,6 +167,16 @@ export default function DrawerLayout() {
           ),
         }}
       />
+      <Drawer.Screen
+        name="mail"
+        options={{
+          drawerLabel: "E-posta Yönetimi",
+          title: "E-posta Yönetimi",
+          drawerIcon: ({ size, color }) => (
+            <MaterialIcons name="email" size={size} color={color} />
+          ),
+        }}
+      />
       {userData?.role === 'admin' && (
         <Drawer.Screen
           name="admin"

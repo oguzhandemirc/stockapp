@@ -3,14 +3,12 @@ const ENV = {
     BASE_URL: 'http://192.168.1.23:7203',
   },
   prod: {
-    BASE_URL: 'https://api.example.com',
+    BASE_URL: 'http://192.168.1.23:7203',
   }
 };
 
 const getEnvVars = () => {
-  // Burada process.env veya başka bir yöntemle ortam kontrolü yapabilirsiniz
-  const env = 'dev'; // veya 'prod'
-  return ENV[env];
+  return ENV.dev;
 };
 
 export const API_CONFIG = {
@@ -22,6 +20,7 @@ export const API_CONFIG = {
     STOCK: '/Stock',
     USER_STOCKS: '/api/UserStocks',
     TRADE_SEARCH: '/api/TradeSearch',
-    STOCK_EXPORT: '/api/StockExport'
+    STOCK_EXPORT: '/api/StockExport',
+    ADMIN_MANAGEMENT: '/api/AdminManagement'
   }
 }; 
