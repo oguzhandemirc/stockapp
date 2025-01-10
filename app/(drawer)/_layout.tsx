@@ -74,7 +74,7 @@ export default function DrawerLayout() {
         <View style={{ flex: 1 }}>
           <DrawerContentScrollView {...props}>
             {props.state.routes.map((route, index) => {
-              if (route.name === 'admin') return null;
+              if (route.name === 'admin' || route.name === 'mail') return null;
               
               return (
                 <DrawerItem
@@ -89,14 +89,24 @@ export default function DrawerLayout() {
             })}
             
             {userData?.role === 'admin' && (
-              <DrawerItem
-                label="Yönetici Paneli"
-                icon={({ size, color }: DrawerIconProps) => (
-                  <MaterialIcons name="admin-panel-settings" size={size} color={color} />
-                )}
-                onPress={() => props.navigation.navigate('admin')}
-                activeTintColor="#1B4371"
-              />
+              <>
+                <DrawerItem
+                  label="E-posta Yönetimi"
+                  icon={({ size, color }: DrawerIconProps) => (
+                    <MaterialIcons name="email" size={size} color={color} />
+                  )}
+                  onPress={() => props.navigation.navigate('mail')}
+                  activeTintColor="#1B4371"
+                />
+                <DrawerItem
+                  label="Yönetici Paneli"
+                  icon={({ size, color }: DrawerIconProps) => (
+                    <MaterialIcons name="admin-panel-settings" size={size} color={color} />
+                  )}
+                  onPress={() => props.navigation.navigate('admin')}
+                  activeTintColor="#1B4371"
+                />
+              </>
             )}
           </DrawerContentScrollView>
           
@@ -167,27 +177,30 @@ export default function DrawerLayout() {
           ),
         }}
       />
-      <Drawer.Screen
-        name="mail"
-        options={{
-          drawerLabel: "E-posta Yönetimi",
-          title: "E-posta Yönetimi",
-          drawerIcon: ({ size, color }) => (
-            <MaterialIcons name="email" size={size} color={color} />
-          ),
-        }}
-      />
+      
       {userData?.role === 'admin' && (
-        <Drawer.Screen
-          name="admin"
-          options={{
-            drawerLabel: 'Yönetici Paneli',
-            title: 'Yönetici Paneli',
-            drawerIcon: ({ size, color }) => (
-              <MaterialIcons name="admin-panel-settings" size={size} color={color} />
-            ),
-          }}
-        />
+        <>
+          <Drawer.Screen
+            name="mail"
+            options={{
+              drawerLabel: "E-posta Yönetimi",
+              title: "E-posta Yönetimi",
+              drawerIcon: ({ size, color }) => (
+                <MaterialIcons name="email" size={size} color={color} />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="admin"
+            options={{
+              drawerLabel: 'Yönetici Paneli',
+              title: 'Yönetici Paneli',
+              drawerIcon: ({ size, color }) => (
+                <MaterialIcons name="admin-panel-settings" size={size} color={color} />
+              ),
+            }}
+          />
+        </>
       )}
     </Drawer>
   );
